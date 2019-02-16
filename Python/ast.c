@@ -2592,10 +2592,10 @@ ast_for_expr(struct compiling *c, const node *n)
                     return NULL;
                 asdl_seq_SET(seq, i / 2, e);
             }
-            if (!strcmp(STR(CHILD(n, 1)), "and"))
+            if (!strcmp(STR(CHILD(n, 1)), "and") || !strcmp(STR(CHILD(n, 1)), "ee"))
                 return BoolOp(And, seq, LINENO(n), n->n_col_offset,
                               c->c_arena);
-            assert(!strcmp(STR(CHILD(n, 1)), "or"));
+            assert(!strcmp(STR(CHILD(n, 1)), "or" ) || !strcmp(STR(CHILD(n, 1)), "ou" ));
             return BoolOp(Or, seq, LINENO(n), n->n_col_offset, c->c_arena);
         case not_test:
             if (NCH(n) == 1) {
@@ -3564,7 +3564,7 @@ ast_for_if_stmt(struct compiling *c, const node *n)
        's' for el_s_e, or
        'i' for el_i_f
     */
-    if (s[2] == 's') {
+    if (s[2] == 's' || s[2] == 'n') {
         expr_ty expression;
         asdl_seq *seq1, *seq2;
 
@@ -3581,7 +3581,7 @@ ast_for_if_stmt(struct compiling *c, const node *n)
         return If(expression, seq1, seq2, LINENO(n), n->n_col_offset,
                   c->c_arena);
     }
-    else if (s[2] == 'i') {
+    else if (s[2] == 'i' || s[2] == 'e') {
         int i, n_elif, has_else = 0;
         expr_ty expression;
         asdl_seq *suite_seq;
